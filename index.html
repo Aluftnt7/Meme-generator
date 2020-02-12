@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme genarator!</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body onload="onInit()">
+
+    <div class="editor-container hidden">
+        <canvas id="canvas" height="400" width="400" style="border: 1px solid black;"></canvas>
+        <div class="buttons">
+            <textarea id="text" placeholder="Pls oh Pls be funny" cols="50" rows="2" oninput="change(this.value)"></textarea>
+            <button class="btn btn-save"><a href="#" class="save" onclick="saveMeme(this)" download="my-img.jpg"> save!</a></button>
+            <button class="btn btn-increase" onclick="onChangingFontSize(1)">A</button>
+            <button class="btn btn-decrease" onclick="onChangingFontSize(0)">a</button>
+            <button class="btn btn-increase" onclick="onChangingLineHeight(1)">down</button>
+            <button class="btn btn-decrease" onclick="onChangingLineHeight(0)">up</button>
+            <button class="btn btn-change-input" onclick="onChangingLine(0)">change line</button>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <nav>
+            <ul class="flex">
+                <li>Logo</li>
+                <li>Gallery</li>
+                <li>Meme</li>
+                <li>About</li>
+            </ul>
+        </nav>
+        <div class="img-container">
+            <a> <img src="meme-imgs (square)/1.jpg" onclick="openEditor(this)"> </a>
+            <a> <img src="meme-imgs (square)/2.jpg" onclick="openEditor(this)"> </a>
+            <a> <img src="meme-imgs (square)/3.jpg" onclick="openEditor(this)"> </a>
+            <a> <img src="meme-imgs (square)/4.jpg" onclick="openEditor(this)"> </a>
+            <a> <img src="meme-imgs (square)/5.jpg" onclick="openEditor(this)"> </a>
+            <a> <img src="meme-imgs (square)/6.jpg" onclick="openEditor(this)"> </a>
+            <a> <img src="meme-imgs (square)/7.jpg" onclick="openEditor(this)"> </a>
+
+
+        </div>
+    </div>
+
+
+    <script src="js/meme-service.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
