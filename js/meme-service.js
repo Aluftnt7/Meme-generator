@@ -7,7 +7,7 @@ var gImges = createImgs()
 
 function createImgs() {
 
-    var img = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18']
+    var img = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19']
         .map(createImg)
 
     return img;
@@ -59,12 +59,12 @@ function changeFontSize(id) {
 
     if (id === 1) {
         gCtx.font.split(' ');
-        var newSize = (currLineFont += 1) + 'px';
+        var newSize = (currLineFont += 2) + 'px';
         gCtx.font = newSize + ' ' + 'IMPACT'; /// using the last part
     } else {
         var cFont = gCtx.font;
         gCtx.font.split(' ');
-        var newSize = (currLineFont -= 1) + 'px';
+        var newSize = (currLineFont -= 2) + 'px';
         gCtx.font = newSize + ' ' + 'IMPACT';
     }
 
@@ -89,16 +89,18 @@ function downloadMeme(elLink) {
 }
 
 function toggleLine() {
+
     var currLineIdx = gMeme.selectedLineIdx
+    var currLineY = gMeme.lines[currLineIdx].linePosY
     if (currLineIdx === 0 || currLineIdx < gMeme.lines.length - 1) {
         currLineIdx++
-
     } else if (currLineIdx === gMeme.lines.length - 1) {
         currLineIdx = 0
-
     }
 
     gMeme.selectedLineIdx = currLineIdx
+
+    rectFotIdx()
 }
 
 function changeLineHeight(id) {
@@ -129,12 +131,44 @@ function addLine() {
         linePosY: 250
     }
     gMeme.lines.push(newLine)
-    gMeme.selectedLineIdx = 2
+    gMeme.selectedLineIdx = gMeme.lines.length - 1
     let text = document.getElementById('text')
     text.value = ''
 }
 
 function closeEditor() {
     document.querySelector('.editor-container').classList.add('hidden')
-    document.querySelector('.container').classList.remove('hidden')
+    document.querySelector('.container').classList.remove('hidden');
+    (gMeme.lines.length === 2) ? '' : gMeme.lines.splice = gMeme.lines.splice(2);
+    [gMeme.lines[0].txt, gMeme.lines[1].txt] = ['Write something funny!', 'And also here, be funny'];
+    [gMeme.lines[0].linePosY, gMeme.lines[1].linePosY] = [50, 460]
+    gMeme.selectedLineIdx = 0
+    let text = document.getElementById('text')
+    text.value = ''
+
+}
+
+
+function drawRect(x, y) {
+    gCtx.beginPath()
+    gCtx.rect(x, y, 300, 40)
+    gCtx.strokeStyle = 'yellow'
+    gCtx.stroke()
+}
+
+function rectFotIdx() {
+    let currLineIdx = gMeme.selectedLineIdx
+    let currLineY = gMeme.lines[currLineIdx].linePosY
+    drawRect(gX / 2.5, currLineY - 30)
+
+}
+
+function deleteLine() {
+    let currLineIdx = gMeme.selectedLineIdx
+    gMeme.lines[currLineIdx].txt = ''
+    gMeme.selectedLineIdx++
+        gMeme.selectedLineIdx = currLineIdx
+    renderCanvas();
+    let text = document.getElementById('text')
+    text.value = ''
 }

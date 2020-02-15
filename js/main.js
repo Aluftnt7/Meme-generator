@@ -9,6 +9,7 @@ function onInit() {
     gCanvas = document.querySelector('#canvas');
     gCtx = gCanvas.getContext('2d');
     renderCanvas()
+
 }
 
 
@@ -39,6 +40,7 @@ function renderCanvas() {
             writeOnImg(txt, idx, pos, color, font)
         });
     }
+
 }
 
 
@@ -92,4 +94,8 @@ function onAddLine() {
 
 function onCloseEditor() {
     closeEditor()
+}
+
+function onDeleteLine() {
+    deleteLine()
 }
