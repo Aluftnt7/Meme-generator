@@ -15,6 +15,8 @@ function onInit() {
         isMovin = true
 
     })
+    renderImgs()
+
 
     gCanvas.addEventListener('mousemove', () => {
         if (!isMovin) return
@@ -29,6 +31,7 @@ function onInit() {
     })
     var imageLoader = document.getElementById('imageLoader');
     imageLoader.addEventListener('change', handleImage, false);
+    console.log(gMeme.lines[0].linePosX);
 
 }
 
@@ -45,19 +48,18 @@ function renderImgs() {
 
 function renderCanvas() {
 
-    renderImgs()
-    gCtx.textAlign = "center";
     var img = new Image()
     img.src = gMeme.img
 
     img.onload = () => {
+        resizeCnvas(img)
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
         gMeme.lines.forEach((memeObj, idx) => {
-            var font = memeObj.size
+            var font = gCanvas.width * 0.09
             var color = memeObj.color
             var txt = memeObj.txt
             var posY = memeObj.linePosY
-            var posX = memeObj.linePosX
+            var posX = gCanvas.width / 2
 
             writeOnImg(txt, idx, posY, posX, color, font)
         });
@@ -69,6 +71,7 @@ function renderCanvas() {
 
 
 function writeOnImg(text, idx, posY, posX, color, font) {
+    console.log('y', posY, 'x', posX);
 
     gCtx.font = font + 'px IMPACT'
     gCtx.strokeStyle = 'black'

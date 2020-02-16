@@ -26,8 +26,8 @@ var gMeme = {
     selectedLineIdx: 0,
 
     lines: [
-        { txt: 'Write something funny!', size: 30, align: 'left', color: 'white', linePosY: 50, linePosX: 250 },
-        { txt: 'And also here, be funny.', size: 30, align: 'left', color: 'white', linePosY: 460, linePosX: 250 },
+        { txt: 'Write something funny!', size: 30, color: 'white', linePosY: 50, linePosX: 250 },
+        { txt: 'And also here, be funny.', size: 30, color: 'white', linePosY: 460, linePosX: 250 },
     ]
 
 }
@@ -120,7 +120,6 @@ function addLine() {
     let newLine = {
         txt: 'You want more, ah?',
         size: 30,
-        align: 'left',
         color: 'white',
         linePosY: 250,
         linePosX: 250
@@ -192,4 +191,26 @@ function handleImage(e) {
         renderCanvas()
     }
     reader.readAsDataURL(e.target.files[0]);
+}
+
+
+function resizeCnvas(img) {
+
+    let width = img.width
+    let height = img.height
+    var aspectRatio
+    if (width > height) {
+        aspectRatio = width / height
+        gCanvas.height = gCanvas.width * (1 / aspectRatio)
+
+    } else if (height > width) {
+        aspectRatio = height / width
+        gCanvas.width = gCanvas.height * (1 / aspectRatio)
+    } else {
+        gCanvas.width = 500
+        gCanvas.height = 500
+    }
+    gCtx.textAlign = "center";
+
+
 }
