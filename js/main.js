@@ -2,6 +2,8 @@
 var gCanvas
 var gCtx
 
+var isMovin = false
+
 
 
 
@@ -9,6 +11,24 @@ function onInit() {
     gCanvas = document.querySelector('#canvas');
     gCtx = gCanvas.getContext('2d');
     renderCanvas()
+    gCanvas.addEventListener('mousedown', () => {
+        isMovin = true
+
+    })
+
+    gCanvas.addEventListener('mousemove', () => {
+        if (!isMovin) return
+        let movingX = event.offsetX
+        let movingY = event.offsetY
+        freeMovin(movingX, movingY)
+    })
+
+    gCanvas.addEventListener('mouseup', () => {
+        isMovin = false
+
+    })
+    var imageLoader = document.getElementById('imageLoader');
+    imageLoader.addEventListener('change', handleImage, false);
 
 }
 
@@ -24,6 +44,7 @@ function renderImgs() {
 }
 
 function renderCanvas() {
+
     renderImgs()
     gCtx.textAlign = "center";
     var img = new Image()
@@ -35,9 +56,10 @@ function renderCanvas() {
             var font = memeObj.size
             var color = memeObj.color
             var txt = memeObj.txt
-            var pos = memeObj.linePosY
+            var posY = memeObj.linePosY
+            var posX = memeObj.linePosX
 
-            writeOnImg(txt, idx, pos, color, font)
+            writeOnImg(txt, idx, posY, posX, color, font)
         });
     }
 
@@ -46,13 +68,13 @@ function renderCanvas() {
 
 
 
-function writeOnImg(text, idx, pos, color, font) {
+function writeOnImg(text, idx, posY, posX, color, font) {
 
     gCtx.font = font + 'px IMPACT'
     gCtx.strokeStyle = 'black'
     gCtx.fillStyle = color
-    gCtx.fillText(text, gX, pos);
-    gCtx.strokeText(text, gX, pos)
+    gCtx.fillText(text, posX, posY);
+    gCtx.strokeText(text, posX, posY)
     gCtx.textAlign = "center";
     gMeme.lines[idx].txt = text
 
@@ -64,9 +86,10 @@ function onApplayColor(id) {
 }
 
 function onChangingLine() {
-    toggleLine()
     let text = document.getElementById('text')
     text.value = ''
+    text.focus()
+    toggleLine()
 }
 
 function onChangingLineHeight(id) {

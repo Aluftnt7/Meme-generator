@@ -1,9 +1,8 @@
 'use strict'
-var isWriting = false
-var gX = 250
 var gFont = 30
 var gNextId = 0
 var gImges = createImgs()
+var gUploadedImg
 
 function createImgs() {
 
@@ -22,13 +21,13 @@ function createImg(key) {
 }
 
 var gMeme = {
-    img: 'http://127.0.0.1:5500/meme-imgs%20(square)/1.jpg',
+    img: gUploadedImg,
     // selectedImgId: 0,
     selectedLineIdx: 0,
 
     lines: [
-        { txt: 'Write something funny!', size: 30, align: 'left', color: 'white', linePosY: 50 },
-        { txt: 'And also here, be funny.', size: 30, align: 'left', color: 'white', linePosY: 460 },
+        { txt: 'Write something funny!', size: 30, align: 'left', color: 'white', linePosY: 50, linePosX: 250 },
+        { txt: 'And also here, be funny.', size: 30, align: 'left', color: 'white', linePosY: 460, linePosX: 250 },
     ]
 
 }
@@ -36,26 +35,19 @@ var gMeme = {
 
 
 function writeLine(val, idx) {
-    if (!isWriting) {
-        return
-    } else {
-
-        gMeme.lines[idx].txt = val
-        renderCanvas(val, idx)
-    }
+    gMeme.lines[idx].txt = val
+    renderCanvas()
 }
 
 
 
 function change(val) {
-    isWriting = true
     var curIdx = gMeme.selectedLineIdx
     writeLine(val, curIdx)
 }
 
 function changeFontSize(id) {
     var currLineFont = gMeme.lines[gMeme.selectedLineIdx].size
-
 
     if (id === 1) {
         gCtx.font.split(' ');
@@ -69,8 +61,8 @@ function changeFontSize(id) {
     }
 
     gMeme.lines[gMeme.selectedLineIdx].size = currLineFont
-}
 
+}
 
 
 
@@ -89,18 +81,20 @@ function downloadMeme(elLink) {
 }
 
 function toggleLine() {
-
     var currLineIdx = gMeme.selectedLineIdx
-    var currLineY = gMeme.lines[currLineIdx].linePosY
-    if (currLineIdx === 0 || currLineIdx < gMeme.lines.length - 1) {
+    if (currLineIdx < gMeme.lines.length - 1) {
         currLineIdx++
-    } else if (currLineIdx === gMeme.lines.length - 1) {
+    } else if (currLineIdx === gMeme.lines.length - 1 || gMeme.lines.length === 1) {
         currLineIdx = 0
     }
 
     gMeme.selectedLineIdx = currLineIdx
 
+    var currLineTxt = gMeme.lines[currLineIdx].txt
+    var elText = document.getElementById('text')
+    elText.value = currLineTxt
     rectFotIdx()
+
 }
 
 function changeLineHeight(id) {
@@ -128,7 +122,8 @@ function addLine() {
         size: 30,
         align: 'left',
         color: 'white',
-        linePosY: 250
+        linePosY: 250,
+        linePosX: 250
     }
     gMeme.lines.push(newLine)
     gMeme.selectedLineIdx = gMeme.lines.length - 1
@@ -151,24 +146,50 @@ function closeEditor() {
 
 function drawRect(x, y) {
     gCtx.beginPath()
-    gCtx.rect(x, y, 300, 40)
+    gCtx.rect(x - 100, y, 500, 40)
     gCtx.strokeStyle = 'yellow'
     gCtx.stroke()
 }
 
 function rectFotIdx() {
     let currLineIdx = gMeme.selectedLineIdx
-    let currLineY = gMeme.lines[currLineIdx].linePosY
-    drawRect(gX / 2.5, currLineY - 30)
 
+    let currLineY = gMeme.lines[currLineIdx].linePosY
+    let currLineX = gMeme.lines[currLineIdx].linePosX
+    drawRect(currLineX / 2.5, currLineY - 30)
 }
 
 function deleteLine() {
     let currLineIdx = gMeme.selectedLineIdx
-    gMeme.lines[currLineIdx].txt = ''
-    gMeme.selectedLineIdx++
-        gMeme.selectedLineIdx = currLineIdx
-    renderCanvas();
+    gMeme.lines.splice(currLineIdx, 1)
+    gMeme.selectedLineIdx = currLineIdx + 1
     let text = document.getElementById('text')
     text.value = ''
+    renderCanvas();
+}
+
+
+function freeMovin(x, y) {
+    let currLineIdx = gMeme.selectedLineIdx
+    gMeme.lines[currLineIdx].linePosY = y
+    gMeme.lines[currLineIdx].linePosX = x
+
+    renderCanvas()
+}
+
+function handleImage(e) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+        var img = new Image();
+        img.onload = function() {
+            img.width = gCanvas.width;
+            img.heigt = gCanvas.height;
+        }
+        img.src = event.target.result;
+        gMeme.img = img.src
+        document.querySelector('.editor-container').classList.remove('hidden')
+        document.querySelector('.container').classList.add('hidden')
+        renderCanvas()
+    }
+    reader.readAsDataURL(e.target.files[0]);
 }

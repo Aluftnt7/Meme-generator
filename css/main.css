@@ -40,7 +40,7 @@ ul {
     grid-column: 4 / -1;
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     list-style: none;
     width: 100%;
     flex-direction: row;
@@ -64,17 +64,23 @@ li.gallery:hover {
 
 li.gallery {
     grid-row: 1;
-    grid-column: 1 / 2;
+    grid-column: 2 / 3;
 }
 
 li.meme {
     grid-row: 1;
-    grid-column: 2 / 3;
+    grid-column: 3 / 4;
 }
 
 li.about {
     grid-row: 1;
-    grid-column: 3 / -1;
+    grid-column: 4 / -1;
+}
+
+li.file {
+    grid-row: 1;
+    grid-column: 1 / 2;
+    margin-right: 25px;
 }
 
 .logo-img {
