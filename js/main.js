@@ -52,9 +52,9 @@ function renderCanvas() {
     var img = new Image()
     img.src = gMeme.img
     var font
+    resizeCnvas(img)
 
     img.onload = () => {
-        resizeCnvas(img)
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
         gMeme.lines.forEach((memeObj, idx) => {
             (memeObj.size === 0) ? font = gCanvas.width * 0.09: font = memeObj.size;
