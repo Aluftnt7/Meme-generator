@@ -216,4 +216,5 @@ function resizeCnvas(img) {
     gCtx.textAlign = "center";
 
 
+
 }

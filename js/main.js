@@ -52,7 +52,6 @@ function renderCanvas() {
     var img = new Image()
     img.src = gMeme.img
     var font
-    console.log(font);
 
     img.onload = () => {
         resizeCnvas(img)
@@ -61,7 +60,7 @@ function renderCanvas() {
             (memeObj.size === 0) ? font = gCanvas.width * 0.09: font = memeObj.size;
 
             // font = memeObj.size // FIX INCRESE FONT SIZE // EMPTY Y POS AND PUT NULL AND THEN IF STATMEN
-            memeObj.size = font
+            // memeObj.size = font
             var color = memeObj.color
             var txt = memeObj.txt
             var posY = memeObj.linePosY
