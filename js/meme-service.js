@@ -26,8 +26,8 @@ var gMeme = {
     selectedLineIdx: 0,
 
     lines: [
-        { txt: 'Write something funny!', size: 30, color: 'white', linePosY: 50, linePosX: 250 },
-        { txt: 'And also here, be funny.', size: 30, color: 'white', linePosY: 460, linePosX: 250 },
+        { txt: 'Write something funny!', size: 0, color: 'white', linePosY: 50, linePosX: 250 },
+        { txt: 'And also here, be funny.', size: 0, color: 'white', linePosY: 460, linePosX: 250 },
     ]
 
 }
@@ -59,6 +59,8 @@ function changeFontSize(id) {
         var newSize = (currLineFont -= 2) + 'px';
         gCtx.font = newSize + ' ' + 'IMPACT';
     }
+    console.log(gMeme.lines[gMeme.selectedLineIdx].size);
+    console.log(currLineFont);
 
     gMeme.lines[gMeme.selectedLineIdx].size = currLineFont
 
@@ -134,6 +136,7 @@ function closeEditor() {
     document.querySelector('.editor-container').classList.add('hidden')
     document.querySelector('.container').classList.remove('hidden');
     (gMeme.lines.length === 2) ? '' : gMeme.lines.splice = gMeme.lines.splice(2);
+    [gMeme.lines[0].size, gMeme.lines[1].size] = [0, 0];
     [gMeme.lines[0].txt, gMeme.lines[1].txt] = ['Write something funny!', 'And also here, be funny'];
     [gMeme.lines[0].linePosY, gMeme.lines[1].linePosY] = [50, 460]
     gMeme.selectedLineIdx = 0

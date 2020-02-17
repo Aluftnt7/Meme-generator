@@ -18,6 +18,7 @@ function onInit() {
     renderImgs()
 
 
+
     gCanvas.addEventListener('mousemove', () => {
         if (!isMovin) return
         let movingX = event.offsetX
@@ -50,19 +51,27 @@ function renderCanvas() {
 
     var img = new Image()
     img.src = gMeme.img
+    var font
+    console.log(font);
 
     img.onload = () => {
         resizeCnvas(img)
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
         gMeme.lines.forEach((memeObj, idx) => {
-            var font = gCanvas.width * 0.09
+            (memeObj.size === 0) ? font = gCanvas.width * 0.09: font = memeObj.size;
+
+            // font = memeObj.size // FIX INCRESE FONT SIZE // EMPTY Y POS AND PUT NULL AND THEN IF STATMEN
+            memeObj.size = font
             var color = memeObj.color
             var txt = memeObj.txt
             var posY = memeObj.linePosY
             var posX = gCanvas.width / 2
 
             writeOnImg(txt, idx, posY, posX, color, font)
+            console.log(memeObj.size);
+            memeObj.size = font
         });
+
     }
 
 }
@@ -71,7 +80,6 @@ function renderCanvas() {
 
 
 function writeOnImg(text, idx, posY, posX, color, font) {
-    console.log('y', posY, 'x', posX);
 
     gCtx.font = font + 'px IMPACT'
     gCtx.strokeStyle = 'black'
